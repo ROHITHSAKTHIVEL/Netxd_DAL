@@ -5,5 +5,5 @@ import (
 )
 
 type ICustomer interface {
-	CreateCustomer(customer *models.Customer) error
+	CreateCustomer(customer *models.Customer) (*models.DBResponse, error)
 }

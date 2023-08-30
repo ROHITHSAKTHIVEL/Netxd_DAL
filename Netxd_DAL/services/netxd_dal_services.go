@@ -5,6 +5,7 @@ import (
 	"Netxd_DAL/models"
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -17,19 +18,26 @@ func InitCustomerService(collection *mongo.Collection, ctx context.Context) inte
 	return &CustomerService{collection, ctx}
 }
 
-func (c *CustomerService) CreateCustomer(customer *models.Customer) (*mongo.InsertOneResult, error) {
-	// customer.CustomerID = 4545
-	// customer.FirstName = "Rohith"
-	// customer.LastName = "S"
-	// customer.BankID = 21345
-	// customer.CreatedAt = "29.08.2023"
-	// customer.UpdateAt = "30.08.2023"
-	// customer.Balance = 500.00
-	// customer.IsActive = true
+func (c *CustomerService) CreateCustomer(customer *models.Customer) (*models.DBResponse, error) {
 
-	_, err := c.CustomerCollection.InsertOne(c.ctx, &customer)
+	res, err := c.CustomerCollection.InsertOne(c.ctx, &customer)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+
+	response := &models.DBResponse{
+		CustomerID: res.InsertedID.(primitive.ObjectID),
+		CreatedAt:  customer.CreatedAt,
+	}
+
+	return response, nil
 }
+
+// customer.CustomerID = 4545
+// customer.FirstName = "Rohith"
+// customer.LastName = "S"
+// customer.BankID = 21345
+// customer.CreatedAt = "29.08.2023"
+// customer.UpdateAt = "30.08.2023"
+// customer.Balance = 500.00
+// customer.IsActive = true
