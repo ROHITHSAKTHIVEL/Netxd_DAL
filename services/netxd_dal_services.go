@@ -1,10 +1,10 @@
 package services
 
 import (
-	"Netxd_Project/Netxd_DAL/interfaces"
-	"Netxd_Project/Netxd_DAL/models"
 	"context"
 
+	"github.com/ROHITHSAKTHIVEL/Netxd_DAL/interfaces"
+	"github.com/ROHITHSAKTHIVEL/Netxd_DAL/models"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
