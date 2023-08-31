@@ -1,11 +1,10 @@
 package services
 
 import (
-	"Netxd_DAL/interfaces"
-	"Netxd_DAL/models"
+	"Netxd_Project/Netxd_DAL/interfaces"
+	"Netxd_Project/Netxd_DAL/models"
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -20,13 +19,13 @@ func InitCustomerService(collection *mongo.Collection, ctx context.Context) inte
 
 func (c *CustomerService) CreateCustomer(customer *models.Customer) (*models.DBResponse, error) {
 
-	res, err := c.CustomerCollection.InsertOne(c.ctx, &customer)
+	_, err := c.CustomerCollection.InsertOne(c.ctx, &customer)
 	if err != nil {
 		return nil, err
 	}
 
 	response := &models.DBResponse{
-		CustomerID: res.InsertedID.(primitive.ObjectID),
+		CustomerID: customer.CustomerID,
 		CreatedAt:  customer.CreatedAt,
 	}
 
